@@ -42,23 +42,29 @@ keywords = ['0:00 - 1:00', '1:00 - 2:00', '2:00 - 3:00', '3:00 - 4:00', '4:00 - 
 boroughs = data['Borough'].unique()
 boroughs.sort()
 print(boroughs)
-fasce_orarie = dict.fromkeys(boroughs, dict)
-id = []
+fasce_orarie={}
 for bor in boroughs:
     d = dict.fromkeys(keywords, 0)
     test_data = data[data['Borough'] == bor]
     test_data = test_data.reset_index(drop=True)
     for i in range(len(test_data)):
-        partenza = test_data['tpep_pickup_datetime'][i] 
+        partenza = test_data['tpep_pickup_datetime'][i]
         arrivo = test_data['tpep_dropoff_datetime'][i]
-        if partenza<23:
+        if partenza!=23 and partenza<=arrivo:
             for j in range(partenza,arrivo+1):
                 d[keywords[j]] += int(test_data['passenger_count'][i])
-        else: 
+        elif partenza!= 23 and partenza>arrivo:
+            for h in range(partenza,24):
+                d[keywords[h]] += int(test_data['passenger_count'][i])
+            for h in range(0,arrivo+1):
+                d[keywords[h]] += int(test_data['passenger_count'][i])
+        else:
             d[keywords[partenza]] += int(test_data['passenger_count'][i])
-            for k in range(0,arrivo+1):
-                d[keywords[k]] += int(test_data['passenger_count'][i])
+            if partenza!=arrivo:
+                for k in range(0,arrivo+1):
+                    d[keywords[k]] += int(test_data['passenger_count'][i])
     fasce_orarie[bor] = d
+print(fasce_orarie)
 
 fasce_orarie['Total'] = dict.fromkeys(keywords, 0)
 for bor in boroughs:
@@ -66,6 +72,6 @@ for bor in boroughs:
         fasce_orarie['Total'][i] += fasce_orarie[bor][i]
 
 ending = pd.DataFrame.from_dict(fasce_orarie)
-ending.to_csv('./prova_febbraio.csv')
+ending.to_csv('./prova_gennaio_main.csv')
 t2 = time.time()
 print(t2-t1)
