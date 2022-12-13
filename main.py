@@ -1,77 +1,68 @@
-import pandas as pd
-import time
+from processing import *
+from preprocessing import *
+from csv import writer
 
-t1 = time.time()
+def calcolo_singolo_mese(path,m):
+    parquet = leggi_parquet(path)
+    taxi_zones = carica_zone()
+    data = merge_dati(parquet, taxi_zones)
+    data = data.dropna(axis=0)
+    data = pulizia_dati(data,anno,m)
+    individuazione_ore(data)
+    keys = fasce_orarie(fascia_oraria)
+    #id = genera_identificatore_fascia(keys)
+    d = calcolo_passeggeri(data, keys)
+    return d
+
+def salvataggio_su_file(d,m):
+    ending = pd.DataFrame.from_dict(d)
+    if condizione_mese == 's':
+        with open(f'dati_ogni_{fascia_oraria}_ore_{mese}-{anno}.csv', 'a') as file:
+            writer(file).writerow(['', '', '', '', '', '', '', '', ''])
+            writer(file).writerow([m,'','','','','','','',''])
+            writer(file).writerow(['', '', '', '', '', '', '', '', ''])
+        ending.to_csv(f'dati_ogni_{fascia_oraria}_ore_{mese}-{anno}.csv', mode='a')
+    else:
+        with open(f'dati_ogni_{fascia_oraria}_ore_anno_{anno}.csv', 'a') as file:
+            writer(file).writerow(['', '', '', '', '', '', '', '', ''])
+            writer(file).writerow([m,'','','','','','','',''])
+            writer(file).writerow(['', '', '', '', '', '', '', '', ''])
+        ending.to_csv(f'dati_ogni_{fascia_oraria}_ore_anno_{anno}.csv', mode='a')
+
 
 anno = input('Inserisci anno da analizzare: ')
-mese = input('Inserisci mese da analizzare: ')
+condizione_mese = input('Vuoi analizzare un mese specifico? [s/n]: ')
+if condizione_mese == 'n' and anno != '2022':
+    mese = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
+elif condizione_mese == 'n' and anno == '2022':
+    mese = ['01', '02', '03', '04', '05', '06', '07', '08', '09']
+else:
+    numero_mesi = int(input('Quanti mesi vuoi analizzare? '))
+    if numero_mesi > 1:
+        mese = input('Inserisci mesi da analizzare (inserire i numeri separati da spazi, es: 01 02 ...): ')
+        mese = mese.split(' ')
+    else:
+        mese = input('Inserisci mese da analizzare (in numero, es: 01): ')
 
-prova = pd.read_parquet(f'yellow_tripdata_{anno}-{mese}.parquet', engine='pyarrow')
+fascia_oraria = int(input('Durata della fascia oraria (inserire un valore tra 1,3,8,12): '))
+mesi_in_lettere = {'01': 'Gennaio', '02': 'Febbraio', '03': 'Marzo', '04': 'Aprile', '05': 'Maggio', '06': 'Giugno',
+                   '07': 'Luglio', '08': 'Agosto', '09': 'Settembre', '10': 'Ottobre', '11': 'Novembre', '12': 'Dicembre'}
 
-taxi_zones = pd.read_csv('taxi+_zone_lookup.csv')
+if condizione_mese == 's':
+    if numero_mesi>1:
+        for m in mese:
+            path = f'yellow_tripdata_{anno}-{m}.parquet'
+            temp = calcolo_singolo_mese(path,m)
+            salvataggio_su_file(temp, mesi_in_lettere[m])
+            print('Mese ' + m + ' completato')
 
-a = prova[['tpep_pickup_datetime', 'tpep_dropoff_datetime', 'passenger_count', 'trip_distance', 'PULocationID', 'DOLocationID', 'fare_amount']]
-b = taxi_zones[['LocationID', 'Borough']]
-
-data = pd.merge(a, b, left_on='PULocationID', right_on='LocationID', how='left')
-
-data = data[['PULocationID', 'DOLocationID', 'Borough', 'tpep_pickup_datetime', 'tpep_dropoff_datetime', 'passenger_count']]
-
-data = data[data['passenger_count'].notna()]
-
-start = pd.to_datetime(data['tpep_pickup_datetime']).dt.hour
-end = pd.to_datetime(data['tpep_dropoff_datetime']).dt.hour
-
-data['tpep_pickup_datetime'] = start
-data['tpep_dropoff_datetime'] = end
-
-data['passenger_count'] = data['passenger_count'].astype('int8')
-data['PULocationID'] = data['PULocationID'].astype('int16')
-data['DOLocationID'] = data['DOLocationID'].astype('int16')
-
-del a
-del b
-del start
-del end
-
-keywords = ['0:00 - 1:00', '1:00 - 2:00', '2:00 - 3:00', '3:00 - 4:00', '4:00 - 5:00', '5:00 - 6:00',
-            '6:00 - 7:00', '7:00 - 8:00', '8:00 - 9:00', '9:00 - 10:00', '10:00 - 11:00', '11:00 - 12:00',
-            '12:00 - 13:00', '13:00 - 14:00', '14:00 - 15:00', '15:00 - 16:00', '16:00 - 17:00', '17:00 - 18:00',
-            '18:00 - 19:00', '19:00 - 20:00', '20:00 - 21:00', '21:00 - 22:00', '22:00 - 23:00', '23:00 - 24:00']
-
-boroughs = data['Borough'].unique()
-boroughs.sort()
-print(boroughs)
-fasce_orarie={}
-for bor in boroughs:
-    d = dict.fromkeys(keywords, 0)
-    test_data = data[data['Borough'] == bor]
-    test_data = test_data.reset_index(drop=True)
-    for i in range(len(test_data)):
-        partenza = test_data['tpep_pickup_datetime'][i]
-        arrivo = test_data['tpep_dropoff_datetime'][i]
-        if partenza!=23 and partenza<=arrivo:
-            for j in range(partenza,arrivo+1):
-                d[keywords[j]] += int(test_data['passenger_count'][i])
-        elif partenza!= 23 and partenza>arrivo:
-            for h in range(partenza,24):
-                d[keywords[h]] += int(test_data['passenger_count'][i])
-            for h in range(0,arrivo+1):
-                d[keywords[h]] += int(test_data['passenger_count'][i])
-        else:
-            d[keywords[partenza]] += int(test_data['passenger_count'][i])
-            if partenza!=arrivo:
-                for k in range(0,arrivo+1):
-                    d[keywords[k]] += int(test_data['passenger_count'][i])
-    fasce_orarie[bor] = d
-print(fasce_orarie)
-
-fasce_orarie['Total'] = dict.fromkeys(keywords, 0)
-for bor in boroughs:
-    for i in keywords:
-        fasce_orarie['Total'][i] += fasce_orarie[bor][i]
-
-ending = pd.DataFrame.from_dict(fasce_orarie)
-ending.to_csv('./prova_gennaio_main.csv')
-t2 = time.time()
-print(t2-t1)
+    else:
+        path = f'yellow_tripdata_{anno}-{mese}.parquet'
+        d = calcolo_singolo_mese(path,mese)
+        salvataggio_su_file(d, mesi_in_lettere[mese])
+else:
+    for m in mese:
+        path = f'yellow_tripdata_{anno}-{m}.parquet'
+        temp = calcolo_singolo_mese(path,m)
+        salvataggio_su_file(temp, mesi_in_lettere[m])
+        print('Mese ' + m + ' completato')
