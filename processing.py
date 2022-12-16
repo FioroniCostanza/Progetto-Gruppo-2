@@ -1,3 +1,8 @@
+from collections import OrderedDict
+
+import pandas as pd
+
+
 def fasce_orarie(f:int):
     if f == 1:
         keys = ['0:00 - 1:00', '1:00 - 2:00', '2:00 - 3:00', '3:00 - 4:00', '4:00 - 5:00', '5:00 - 6:00',
@@ -32,10 +37,11 @@ def calcolo_passeggeri_per_singola_zona(data, bor, keys):
         d[keys[i]] = contatore
     return d
 
-def calcolo_passeggeri(data, keys, bor=''):
+def calcolo_passeggeri(data, keys, bor=None):
     fasce_orarie = {}
-    if bor != '':
-        fasce_orarie[bor] = calcolo_passeggeri_per_singola_zona(data, bor, keys)
+    if bor != None:
+        for zone in bor:
+            fasce_orarie[zone] = calcolo_passeggeri_per_singola_zona(data, zone, keys)
     else:
         boroughs = data['Borough'].unique()
         boroughs.sort()
