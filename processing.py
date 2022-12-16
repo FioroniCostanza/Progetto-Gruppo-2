@@ -1,7 +1,5 @@
 from collections import OrderedDict
-
 import pandas as pd
-
 
 def fasce_orarie(f:int):
     if f == 1:
@@ -56,4 +54,5 @@ def calcolo_passeggeri_totali(data, d: dict, keys):
     for bor in boroughs:
         for i in keys:
             d['Total'][i] += d[bor][i]
+
 

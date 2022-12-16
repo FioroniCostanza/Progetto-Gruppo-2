@@ -3,6 +3,7 @@ import pandas as pd
 def leggi_parquet(path: str):
     parquet = pd.read_parquet(path, engine='pyarrow')
     return parquet
+
 def carica_zone():
     taxi_zones = pd.read_csv('taxi+_zone_lookup.csv')
     return taxi_zones
@@ -12,6 +13,7 @@ def merge_dati(parquet, taxi_zones):
     b = taxi_zones[['LocationID', 'Borough']]
     data = pd.merge(a, b, left_on='PULocationID', right_on='LocationID', how='left')
     return data
+
 def pulizia_dati(data,anno,mese):
     if '0' in mese[0]:
         mese = int(mese.split('0')[1])
