@@ -28,13 +28,6 @@ def calcolo_e_salvataggio(e,anno,mesi_in_numero,borough,cond_mese,cond_borough,f
             e.salvataggio_su_file_mesi_aggregati(tot[indice_anno], indice_anno, mesi, cond_mese, cond_borough)
             indice_anno += 1
 
-
-    # if len(anno) > 1: #pongo questa condizione perché l'aggregazione per il singolo anno sarebbe inutile in quanto risulterebbe uguale all'aggregazione per mesi
-    #     for i in range(1, len(tot)):
-    #         totale = tot[0].add(tot[i])
-    #     e.salvataggio_su_file_anni_aggregati(totale, mesi, cond_mese, cond_borough)
-    #     grafici(totale,'Aggregato_annuale',a,fascia_oraria)
-
     if len(anno) > 1:
             totale = tot[0]
             for i in range(1, len(tot)):

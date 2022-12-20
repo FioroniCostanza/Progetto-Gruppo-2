@@ -6,6 +6,7 @@ from condizioni import *
 
 def grafici(data,m,anno,fascia_oraria):
     if isinstance(data, dict):
+        t = 1
         b = []
         a = np.array((list(data.keys())))
         b.append((list(data[a[0]].keys()))) 
@@ -18,6 +19,7 @@ def grafici(data,m,anno,fascia_oraria):
         for i in range(len(b[0])):
             label.append((str(b[0][i].split(':')[0]) + ' -' + str(b[0][i].split(':')[1].split('-')[1])))
     elif isinstance(data, list):
+        t = 2
         a = np.array(data[0].columns)
         b = np.array(data[0].reset_index()['index'])
         c = []
@@ -28,6 +30,7 @@ def grafici(data,m,anno,fascia_oraria):
         for i in range(len(b)):
             label.append((str(b[i].split(':')[0]) + ' -' + str(b[i].split(':')[1].split('-')[1])))
     elif isinstance(data, pd.DataFrame):
+         t = 3
          data = data.dropna(axis=1)
          a = np.array(list(data.columns))
          b = np.array(data.reset_index()['index'])
@@ -40,14 +43,18 @@ def grafici(data,m,anno,fascia_oraria):
         if (len(label) < 7):
             pieplot_per_fascia(a,c,label,m,anno)
     if len(a) == 8:
-        barplot(a,b,c,label,m,anno,fascia_oraria)
+        if (len(label)>7):
+            barplot(a,b,c,label,m,anno,fascia_oraria,t)
     if (len(label) < 7):
         pieplot_per_zona(a,c,label,m,anno,fascia_oraria)
         
-def barplot(a,b,c,label,m,anno,fascia_oraria):
+def barplot(a,b,c,label,m,anno,fascia_oraria,t):
     for i in range(len(a)):
-        fig, ax = plt.subplots(figsize=(8,5))        
-        bars = plt.bar(b[0],c[i], width = 0.8)
+        fig, ax = plt.subplots(figsize=(8,5))
+        if t==1:
+            bars = plt.bar(b[0],c[i], width = 0.8)
+        else:
+            bars = plt.bar(b,c[i], width = 0.8)
         titolo = 'Risultati - ' + a[i]
         plt.title(titolo, fontdict={'fontname': 'Comic Sans MS', 'fontsize': 20})
         ax.set_xticks(range(len(c[i])))
@@ -67,7 +74,6 @@ def pieplot_per_zona(a,c,label,m,anno,fascia_oraria):
         plt.style.use('ggplot')
         titolo = 'Risultati - ' + a[i]
         plt.title(titolo, fontdict={'fontname': 'Comic Sans MS', 'fontsize': 20})
-        # plt.pie(weights, labels=label, pctdistance=0.8, autopct='%.2f %%')
         plt.pie(weights, labels=label, wedgeprops={'linewidth': 2, 'edgecolor': 'black'},pctdistance=0.8, autopct='%.2f %%')
         plt.savefig(f"results/piegraph_per_zona/pie_graph_per_zona_{a[i]}_fasce_da_{fascia_oraria}_{m}_{anno}.png", dpi=300)
        
