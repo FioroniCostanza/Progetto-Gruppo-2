@@ -20,7 +20,7 @@ def definizione_mesi(condizione_mese):
     else:
         numero_mesi = int(input('Quanti mesi vuoi analizzare? '))
         if numero_mesi > 1:
-            mese = input('Inserisci mesi da analizzare (inserire indice_anno numeri separati da spazi, es: 01 02 ...): ')
+            mese = input('Inserisci mesi da analizzare (inserire i numeri separati da spazi, es: 01 02 ...): ')
             mese = mese.split(' ')
         else:
             mese = [input('Inserisci mese da analizzare (in numero, es: 01): ')]
