@@ -9,7 +9,7 @@ def definizione_anno(numero_anni):
     else:
         anno = [input('Inserisci anno da analizzare: ')]
         verifica_anno(anno)
-        verifica_piu_anni(anno)
+        verifica_unico_anno(anno)
     anno.sort()
     return anno
 
