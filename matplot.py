@@ -73,7 +73,9 @@ def pieplot_per_zona(a,c,label,m,anno,fascia_oraria):
         plt.figure(figsize=(8,5))
         plt.style.use('ggplot')
         titolo = 'Risultati - ' + a[i]
+        sottotitolo = 'Numero passeggeri: ' + str(sum(weights))
         plt.title(titolo, fontdict={'fontname': 'Comic Sans MS', 'fontsize': 20})
+        plt.suptitle(sottotitolo, y=0.87, fontsize=10)
         plt.pie(weights, labels=label, wedgeprops={'linewidth': 2, 'edgecolor': 'black'},pctdistance=0.8, autopct='%.2f %%')
         plt.savefig(f"results/piegraph_per_zona/pie_graph_per_zona_{a[i]}_fasce_da_{fascia_oraria}_{m}_{anno}.png", dpi=300)
        
@@ -96,7 +98,9 @@ def pieplot_per_fascia(a,c,label,m,anno):
             plt.style.use('ggplot')
             plt.pie(weights, labels = label2 ,pctdistance=0.8, autopct='%.2f %%',wedgeprops={'linewidth': 2, 'edgecolor': 'black'})
             titolo = 'Risultati - ' + 'fascia: ' + str(label[i])
+            sottotitolo = 'Numero passeggeri: ' + str(sum(weights))
             plt.title(titolo, fontdict={'fontname': 'Comic Sans MS', 'fontsize': 20})
+            plt.suptitle(sottotitolo, y=0.87, fontsize=10)
             plt.savefig(f"results/piegraph_per_fascia/pie_graph_per_fascia_oraria_{label[i]}_{m}_{anno}_{i}", dpi=300)
         else:
             for j in range(len(c[:])):
@@ -105,7 +109,9 @@ def pieplot_per_fascia(a,c,label,m,anno):
             plt.style.use('ggplot')
             plt.pie(weights, labels = label2 ,pctdistance=0.8, autopct='%.2f %%',wedgeprops={'linewidth': 2, 'edgecolor': 'black'})
             titolo = 'Risultati - ' + 'fascia: ' + str(label[i])
+            sottotitolo = 'Numero passeggeri: ' + str(sum(weights))
             plt.title(titolo, fontdict={'fontname': 'Comic Sans MS', 'fontsize': 20})
+            plt.suptitle(sottotitolo, y=0.87, fontsize=10)
             plt.savefig(f"results/piegraph_per_fascia/pie_graph_per_fascia_oraria_{label[i]}_{m}_{anno}_{i}", dpi=300)
         
 
