@@ -1,7 +1,7 @@
 from condizioni import *
 from matplot import *
 
-def calcolo_e_salvataggio(e,anno,mesi_in_numero,borough,cond_mese,cond_borough,cartella):
+def calcolo_e_salvataggio(e,anno,mesi_in_numero,borough,cond_mese,cond_borough,fascia_oraria,cartella):
     """
     Funzione che calcola e salva il numero di passeggeri per gli anni, i mesi e i 
     borough dati in ingresso.
