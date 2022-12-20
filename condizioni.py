@@ -36,9 +36,9 @@ def definizione_borough(condizione_borough):
             borough = borough.split(',')
         else:
             borough = [input('Inserisci il borough da analizzare: ')]
+        borough.sort()
     else:
         borough = None
-    borough.sort()
     return borough
 
 def verifica_condizione_su_2022(anno,mese):
