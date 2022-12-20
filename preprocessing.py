@@ -1,9 +1,9 @@
 import pandas as pd
+import os
 
 def leggi_parquet(path: str):
     parquet = pd.read_parquet(path, engine='pyarrow')
     return parquet
-
 def carica_zone():
     taxi_zones = pd.read_csv('taxi+_zone_lookup.csv')
     return taxi_zones

@@ -1,6 +1,3 @@
-from collections import OrderedDict
-import pandas as pd
-
 def fasce_orarie(f:int):
     if f == 1:
         keys = ['0:00 - 1:00', '1:00 - 2:00', '2:00 - 3:00', '3:00 - 4:00', '4:00 - 5:00', '5:00 - 6:00',
@@ -11,7 +8,7 @@ def fasce_orarie(f:int):
         keys = ['0:00 - 3:00', '3:00 - 6:00', '6:00 - 9:00', '9:00 - 12:00', '12:00 - 15:00', '15:00 - 18:00', '18:00 - 21:00', '21:00 - 24:00']
     elif f == 8:
         keys = ['0:00 - 8:00', '8:00 - 16:00', '16:00 - 24:00']
-    else:
+    elif f == 12:
         keys = ['0:00 - 12:00', '12:00 - 24:00']
     return keys
 
@@ -54,5 +51,4 @@ def calcolo_passeggeri_totali(data, d: dict, keys):
     for bor in boroughs:
         for i in keys:
             d['Total'][i] += d[bor][i]
-
 
