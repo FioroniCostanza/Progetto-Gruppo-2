@@ -33,4 +33,4 @@ if e.verifica_se_ricerca_gia_esistente(condizione_mese,condizione_borough):
     print('La ricerca richiesta è già stata effettuata, ricerca il file tra i dati salvati')
     sys.exit()
 
-calcolo_e_salvataggio(e,anno,mesi,borough,condizione_mese,condizione_borough,cartella)
+calcolo_e_salvataggio(e,anno,mesi,borough,condizione_mese,condizione_borough,fascia_oraria,cartella)
