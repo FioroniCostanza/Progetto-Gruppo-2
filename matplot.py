@@ -1,8 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from postprocessing import *
-from condizioni import *
+import os
 
 def grafici(data,mese,anno,fascia_oraria):
     """
@@ -34,12 +33,8 @@ def grafici(data,mese,anno,fascia_oraria):
         ris = [] #in ris vengono salvati i risultati che verranno poi plottati
         for i in bor:
                 ris.append((list(data[i].values())))
-        ris = np.array(ris)    
-        label = [] 
-        for i in range(len(fasce[0])):
-            # Avendo, nel caso venga scelta una fascia oraria di 1h, ben 24 label per i nostri plot, si abbrevia 
-            # la stringa eliminando le parti superflue
-            label.append((str(fasce[0][i].split(':')[0]) + ' -' + str(fasce[0][i].split(':')[1].split('-')[1])))
+        ris = np.array(ris) 
+        label = taglio_stringhe_fasce(fasce[0])
             
     elif isinstance(data, list):
         bor = np.array(data[0].columns)
@@ -48,9 +43,7 @@ def grafici(data,mese,anno,fascia_oraria):
         for i in bor:
             ris.append((list(data[0].loc[:, i])))
         ris = np.array(ris)
-        label = []
-        for i in range(len(fasce)):
-            label.append((str(fasce[i].split(':')[0]) + ' -' + str(fasce[i].split(':')[1].split('-')[1])))
+        label = taglio_stringhe_fasce(fasce)
    
     elif isinstance(data, pd.DataFrame):
          data = data.dropna(axis=1)
@@ -58,9 +51,7 @@ def grafici(data,mese,anno,fascia_oraria):
          fasce = np.array(data.reset_index()['index'])
          ris = np.array(data[bor])
          ris = ris.T # operazione di traspozione, perchè in questo caso ris viene generato come una riga e non come colonna
-         label = []
-         for i in range(len(fasce)):
-             label.append((str(fasce[i].split(':')[0]) + ' -' + str(fasce[i].split(':')[1].split('-')[1])))
+         label = taglio_stringhe_fasce(fasce)
     
     if (len(bor) != 1): # Non svolgiamo l'analisi per fascia oraria se si sta analizzando un solo borough (avremmo dei barplot con una sola barra)
         if (len(label) < 7): # Per una questione di chiarezza dei grafici, svolgiamo questa analisi solo se il numero di fasce totali è 2 o 3
@@ -72,7 +63,29 @@ def grafici(data,mese,anno,fascia_oraria):
     if (len(label) < 7):
         pieplot_per_zona(bor,ris,label,mese,anno,fascia_oraria)
      
-        
+       
+     
+def taglio_stringhe_fasce(fasce):
+    '''
+    Avendo, nel caso venga scelta una fascia oraria di 1h, ben 24 label per i nostri plot, si abbrevia 
+    la stringa eliminando le parti superflue
+
+    Parameters
+    ----------
+    fasce : nump array
+      Contiene le fasce orarie che si stanno analizzando nel formato 'hh:mm - hh:mm', 
+      la funzione restituisce le label nel formato 'hh - hh'
+
+    Returns
+    -------
+    label : list
+    
+    '''
+    label = []
+    for i in range(len(fasce)):
+        label.append((str(fasce[i].split(':')[0]) + ' -' + str(fasce[i].split(':')[1].split('-')[1])))
+    return label
+         
      
 def barplot_per_zona(bor,ris,label,mese,anno,fascia_oraria):
     '''
@@ -98,6 +111,9 @@ def barplot_per_zona(bor,ris,label,mese,anno,fascia_oraria):
     None.
 
     '''
+    if not os.path.exists('results/barplot_per_zona'):
+        os.makedirs('results/barplot_per_zona')
+        
     for i in range(len(bor)):
         fig, ax = plt.subplots(figsize=(8,5)) # Creo una nuova figura
         plt.bar(label,ris[i], width = 0.8) # Creo le barre
@@ -135,6 +151,9 @@ def pieplot_per_zona(bor,ris,label,mese,anno,fascia_oraria):
     None.
 
     '''
+    if not os.path.exists('results/piegraph_per_zona'):
+        os.makedirs('results/piegraph_per_zona')
+        
     for i in range(len(bor)):
         weights = [] # Contiene i valori degli spicchi
         for j in range(len(ris[i])):
@@ -171,6 +190,9 @@ def barplot_per_fascia(bor,ris,label,mese,anno):
     None.
 
     '''
+    if not os.path.exists('results/barplot_per_fascia'):
+        os.makedirs('results/barplot_per_fascia')
+        
     label2 = [] # Per questi plot le label sono i borough considerati
     if ('Total' in bor): # Non ci serrvono i valori totali per questi grafici per cui eliminiamo l'ultima riga dall'array ris
         last_row = ris.shape[0] - 1  # Indice dell'ultima riga
