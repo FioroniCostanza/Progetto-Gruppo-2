@@ -33,7 +33,8 @@ Inoltre, il programma restituisce i seguenti file png:
 Esempio di una ricerca:
 
 Input:
-'''python
+
+
 Inserisci il path della cartella in cui sono presenti i dataset: C:\Python\Progetto-Gruppo-2\datasets
 
 Quanti anni vuoi analizzare? 1
