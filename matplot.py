@@ -26,7 +26,7 @@ def grafici(data,mese,anno,fascia_oraria):
 
     """
     if isinstance(data, dict): # La funzione isinstance controlla il tipo di data cosi da poter svolgere le operazioni preliminari corrette
-        fasce = [] # Inizializzo una variabile b in cui salverò le fasce orarie utilizzate
+        fasce = [] # Inizializzo una variabile fasce in cui salverò le fasce orarie utilizzate
         bor = np.array((list(data.keys()))) # la variabile bor contiene la lista dei borough analizzati
         fasce.append((list(data[bor[0]].keys()))) 
         fasce = np.array(fasce)
@@ -194,7 +194,7 @@ def barplot_per_fascia(bor,ris,label,mese,anno):
         os.makedirs('results/barplot_per_fascia')
         
     label2 = [] # Per questi plot le label sono i borough considerati
-    if ('Total' in bor): # Non ci serrvono i valori totali per questi grafici per cui eliminiamo l'ultima riga dall'array ris
+    if ('Total' in bor): # Non ci servono i valori totali per questi grafici per cui eliminiamo l'ultima riga dall'array ris
         last_row = ris.shape[0] - 1  # Indice dell'ultima riga
         ris = np.delete(ris, last_row, axis=0)
     if ('Total' in bor):
