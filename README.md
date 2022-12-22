@@ -33,8 +33,10 @@ Inoltre, il programma restituisce i seguenti file png:
 Esempio di una ricerca:
 
 Input:
+
 ![image](https://user-images.githubusercontent.com/117634064/209109218-ba54bab6-4aa6-4110-9031-d3d5a1639d56.png)
 
 Output:
+
 ![image](https://user-images.githubusercontent.com/117634064/209109334-ef196c28-ab11-400c-a326-29e20b671965.png)
 
