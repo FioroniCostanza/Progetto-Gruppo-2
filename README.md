@@ -33,8 +33,27 @@ Inoltre, il programma restituisce i seguenti file png:
 Esempio di una ricerca:
 
 Input:
+'''python
+Inserisci il path della cartella in cui sono presenti i dataset: C:\Python\Progetto-Gruppo-2\datasets
 
-![image](https://user-images.githubusercontent.com/117634064/209109218-ba54bab6-4aa6-4110-9031-d3d5a1639d56.png)
+Quanti anni vuoi analizzare? 1
+
+Inserisci anno da analizzare: 2022
+
+Vuoi analizzare un mese specifico? [s/n]: s
+
+Quanti mesi vuoi analizzare? 1
+
+Inserisci mese da analizzare (in numero, es: 01): 01
+
+Vuoi analizzare un borough specifico? [s/n]: s
+
+Quanti borough vuoi analizzare? 1
+
+Inserisci il borough da analizzare: Manhattan
+
+Durata della fascia oraria (inserire un valore tra 1,3,8,12): 1
+
 
 Output:
 
