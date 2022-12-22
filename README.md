@@ -9,14 +9,14 @@ Prima di effettuare una ricerca è necessario:
 Il programma garantisce molta libertà all’utente che può modellare la ricerca inserendo i seguenti input:
 - Path della cartella contenente i dataset appena scaricati, così da non obbligare l’utente a crearsi una cartella all’interno del progetto
 - N° di anni su cui effettuare la ricerca
-- Anno/i scelto/i (N.B. divisi da uno spazio)
+- Anno/i scelto/i *(N.B. divisi da uno spazio)*
 - Possibilità di selezionare mesi specifici
 - N° di mesi su cui effettuare la ricerca
-- Mese/i scelto/i (N.B. divisi da uno spazio)
+- Mese/i scelto/i *(N.B. divisi da uno spazio)*
 - Possibilità di selezionare borough specifici
 - N° di borough su cui effettuare la ricerca
-- Borough scelti (N.B. divisi da una virgola e non da uno spazio)
-- Possibilità di selezionare una fascia oraria (N.B. scegliendo tra i valori 1-3-8-12)
+- Borough scelti *(N.B. divisi da una virgola e non da uno spazio)*
+- Possibilità di selezionare una fascia oraria *(N.B. scegliendo tra i valori 1-3-8-12)*
 
 Infine, gli output prodotti vengono salvati in una cartella denominata Results che viene generata nella directory in cui è presente il codice.
 
@@ -32,7 +32,7 @@ Inoltre, il programma restituisce i seguenti file png:
 
 Esempio di una ricerca:
 
-Input:
+**Input:**
 
 
 Inserisci il path della cartella in cui sono presenti i dataset: C:\Python\Progetto-Gruppo-2\datasets
@@ -56,7 +56,7 @@ Inserisci il borough da analizzare: Manhattan
 Durata della fascia oraria (inserire un valore tra 1,3,8,12): 1
 
 
-Output:
+**Output:**
 
 ![image](https://user-images.githubusercontent.com/117634064/209109334-ef196c28-ab11-400c-a326-29e20b671965.png)
 
