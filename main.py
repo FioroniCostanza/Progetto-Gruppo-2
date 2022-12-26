@@ -1,6 +1,6 @@
 from postprocessing import Elaborazione
 from condizioni import *
-from verify_error import verifica_fascia_oraria
+from verify_error import *
 from calcola_e_salva import *
 import sys
 
