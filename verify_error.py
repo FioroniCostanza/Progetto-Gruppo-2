@@ -21,7 +21,7 @@ def verifica_piu_anni(anno):
     anno : list of str
 
     """
-    if len(anno) < 2:
+    if len(anno) < 2: #in questo caso anno=['anno1', anno2'] quindi si puo' controllare direttamente la lunghezza di anno. 
         raise Exception(f'Hai inserito solo il {anno}. Inserisci più anni!')
 
 
@@ -35,7 +35,7 @@ def verifica_unico_anno(anno):
     anno : list of str
 
     """
-    if len(anno[0]) > 5:
+    if len(anno[0]) > 4: #in questo caso anno=['anno1 anno2'] quindi si deve controllare la lungezza della PRIMA stringa di anno.
         raise Exception(f' Hai inserito {anno} come anni da analizzare. Inserisci un solo anno!')
 
 
@@ -99,7 +99,7 @@ def verifica_piu_mesi(mese):
     mese : list of str
 
     """
-    if len(mese) < 2:
+    if len(mese) < 2: #in questo caso mese=['mese1', mese2'] quindi si puo' controllare direttamente la lunghezza di mese. 
         raise Exception(f'Hai inserito solo {mese}. Inserisci più mesi!')
 
 
@@ -113,7 +113,7 @@ def verifica_unico_mese(mese):
     mese : list of str
 
     """
-    if len(mese[0]) > 3:
+    if len(mese[0]) > 2: #in questo caso mese=['mese1 mese2']  quindi si deve controllare la lungezza della PRIMA stringa di mese.
         raise Exception(f' Hai inserito {mese} come mesi da analizzare. Inserisci un solo mese!')
 
 
