@@ -18,12 +18,12 @@ def definizione_anno(numero_anni):
     if numero_anni > 1:
         anno = input('Inserisci anni da analizzare (separati da spazi): ')
         anno = anno.split(' ')
-        verifica_anno(anno)
         verifica_piu_anni(anno)
+        verifica_anno(anno)
     else:
         anno = [input('Inserisci anno da analizzare: ')]
-        verifica_anno(anno)
         verifica_unico_anno(anno)
+        verifica_anno(anno)
     anno.sort()
     return anno
 
