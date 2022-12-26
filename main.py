@@ -1,4 +1,4 @@
-from postprocessing import Elaborazione
+from elaborazione import Elaborazione
 from condizioni import *
 from verify_error import *
 from calcola_e_salva import *
@@ -30,7 +30,7 @@ e = Elaborazione(anno, mesi, borough, fascia_oraria)
 # Condizione che controlla se è stata effettuata la stessa ricerca, così da non salvare ulteriormente i dati
 if e.verifica_se_ricerca_gia_esistente(condizione_mese,condizione_borough):
     print('Attenzione!!!')
-    print('La ricerca richiesta è già stata effettuata, ricerca il file tra i dati salvati')
+    print('La ricerca richiesta è già stata effettuata, ricerca i file tra i dati salvati')
     sys.exit()
 
 calcolo_e_salvataggio(e,anno,mesi,borough,condizione_mese,condizione_borough,fascia_oraria,cartella)

@@ -1,3 +1,4 @@
+import os
 from condizioni import *
 from matplot import *
 
@@ -29,9 +30,9 @@ def calcolo_e_salvataggio(e,anno,mesi_in_numero,borough,cond_mese,cond_borough,f
     tot = []
     for a in anno:
         mese = verifica_condizione_su_2022(a,mesi_in_numero) # questa condizione serve nel caso in cui si richieda un analisi su interi anni e tra questi sia presente il 2022
-        mesi = [] # inizializzo ogni volta la variabile e perché i mesi possono variare essendoci la condizione sul 2022
+        mesi = [] # inizializzo ogni volta la variabile perché i mesi possono variare essendoci la condizione sul 2022
         for m in mese:
-            path = f'{cartella}/yellow_tripdata_{a}-{m}.parquet'
+            path = os.path.join(cartella, f'yellow_tripdata_{a}-{m}.parquet')
             temp = e.calcolo_singolo_mese(path, m, borough, indice_anno)
             mesi.append(mesi_in_lettere[m])
             dataframe_mesi.append(e.salvataggio_su_file_mesi_separati(temp, indice_anno, mesi_in_lettere[m], cond_mese,cond_borough))

@@ -1,5 +1,4 @@
 import pandas as pd
-import os
 
 def leggi_parquet(path: str):
     """
